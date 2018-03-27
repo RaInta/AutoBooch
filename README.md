@@ -29,7 +29,9 @@ Add the GPIO pins to your Device Tree by editing the file (as root) the /boot/co
 `dtoverlay=w1-gpio`  
 
 Activate the w1 kernel modules to use w1 protocol: 
-`sudo modprobe w1-gpio`
+
+`sudo modprobe w1-gpioi`
+
 `sudo modprobe w1-therm`
 
 Power off the Pi and connect the thermal probe. This involves selecting a GPIO pin to be the designated read-out. Here, we take GPIO4. The wiring schematic provided here refers to the Raspberry Pi 3B GPIO pin configuration; please make sure you check your model's pin configuration. You will also need 3.3 V (3V3) power and an Earth (GND). It's safer to connect the jumper leads to both the Pi and the temperature probe when the Pi is powered off. Restart the Pi.
@@ -40,10 +42,24 @@ Check your probe identifier prefix by looking at the directories created in the 
 
 This should display 'w1_bus_master1' and some gobbley-gook, which is the serial number (mine says ''28-04169314f7ff"). If the prefix for your device is '28,' then hooray! You don't need to change any code. Otherwise, note the first two digits of this code. We'll edit the script to use this later. The temperature is read out into a file called 'w1_slave' in the serial number directory.
 
+Enable execution privileges for the main script (auto_booch.py):
+
+`chmod +x auto_booch.py`
+
+Edit the DS18B20 prefix if necessary. If your DS18B20 prefix was not '28' then you will need to change it. Edit line 50 of auto_booch.py so that
+
+`ds1820_prefix = '28'`
+
+reflects your own prefix.
+
 ## Set as a cron job
+We want the script, auto_booch.py, to run frequently, but not too frequently. Sampling the temperature every half hour is a good compromise, considering your fermentation system should be nicely insulated, and there is a gallon or so of water to provide thermal inertia. So set a cron job on the Pi:
 
 `crontab -e`
 
 Given the heat capacity and expected temperature changes, sampling the temperature every half hour is easily adequate. So, set the cron job to: 
 
 `*/30 * * * * /absolute_path_to_your_script/auto_booch.py`
+
+
+Now: follow the rest of the instructions and enjoy your brew!
