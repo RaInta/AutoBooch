@@ -1,5 +1,4 @@
-# AutoBooch
-Description of my kombucha brewing system, automated using a Raspberry Pi
+# AutoBooch - automate your kombucha brewing system with a Raspberry Pi
 
 Tired of unpredictable brewing times for your kombucha? Worried about the health of your SCOBY pellicle? Look no further! The AutoBooch has your back!
 
@@ -63,3 +62,8 @@ Given the heat capacity and expected temperature changes, sampling the temperatu
 
 
 Now: follow the rest of the instructions and enjoy your brew!
+
+## Performance data
+Just to check the system works as advertised, I did some analysis of the log file generated (<a href="./AutoBooch_data_exploration.ipynb">check out the analysis here</a>). You can see that the daily variation is within the specified range, peaking at 2pm, and a fairly flat minimum throughout the night:
+
+<img src="./Figures/autobooch_temp_plot.png" width=640>
